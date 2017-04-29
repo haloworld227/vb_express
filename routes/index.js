@@ -12,6 +12,22 @@ router.get('/login', function(req, res, next) {
 	res.render('login', { message: req.flash('msg') || '', type: req.flash('type'), isLogin: req.flash('isLogin') });
 });
 
+router.post('/login', function(req, res) {
+	user.login(req.body.email, req.body.password)
+	.then(function() {
+		// req.flash('isLogin', 't')
+		// req.flash('userId',user.id)
+		// res.redirect('user/'+user.id+'/b/new');
+		res.send('Success')
+	})
+	.catch(function(err) {
+		// req.flash('msg', err)
+		// req.flash('type', 'alert-danger')
+		// res.redirect('/login');
+		res.send('failed')
+	});
+});
+
 /* GET signup page. */
 router.get('/signup', function(req, res, next) {
 	res.render('signup', { message: req.flash('msg'), type: req.flash('type'), isLogin: req.flash('isLogin') });
