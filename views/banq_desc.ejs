@@ -1,0 +1,17 @@
+<%-include('up')%>
+<%-include('header')%>
+<div class="row">
+	<h2><%=banq_name%></h2>
+	<span class="col-sm-6">
+		<p><%=banq_desc%></p>
+	</span>
+	<div class="col-sm-6 pull-right" style="background-color:grey;">
+		<img src="/images/cover.jpg" alt="Banquet Image" class="img-responsive">
+	</div>
+</div>
+<div class="col-sm-pull-1 pull-right">
+	<form class="form-horizontal" action="/<%=user_id%>/b/<%=banq_id%>" method="post">
+		<input type="submit" class="btn btn-primary" value="Book">
+	</form>
+</div>
+<%-include('down')%>

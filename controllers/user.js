@@ -29,5 +29,12 @@ module.exports = {
 				reject(err)
 			})
 		})
+	},
+	find: function(id) {
+		return User.findOne({
+			where: {
+				id: id
+			}
+		})
 	}
 }

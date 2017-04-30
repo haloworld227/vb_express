@@ -36,6 +36,9 @@ module.exports = function(sequelize, DataTypes) {
 			},
 			associate: function(models) {
 				// associations can be defined here
+				user.hasMany(models.banquets,{
+					foreignKey: 'owner_id'
+				})
 			}
 	  	}
 	});
