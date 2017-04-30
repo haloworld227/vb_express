@@ -1,10 +1,5 @@
 <%-include('up')%>
-<% if(message.length > 0) {%>
-    <div class="alert <%=type%> alert-dismissable">
-      <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
-      <strong><%=message%></strong>
-    </div>
-<%}%>
+<%-include('error_msg')%>
 <div class="row margin-top">
     <div class="col-sm-6 col-sm-offset-3">
         <div class="panel panel-primary">

@@ -18,8 +18,7 @@ router.post('/login', function(req, res) {
 		res.redirect('users/'+user.id);
 	})
 	.catch(function(err) {
-		console.log(err);
-		req.flash('msg', err)
+		req.flash('msg', 'An erro occured. Try Again')
 		req.flash('type', 'alert-danger')
 		res.redirect('/login');
 	});
