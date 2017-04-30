@@ -1,7 +1,21 @@
 <%-include('up')%>
+
+<% if(!banqs) { %>
+	<%-include('error_msg')%>
+<% } %>
 <div class="row margin-top">
 	<div class="container-fluid">
-
+		<%if(banqs) {%>
+			<%for (var i = 0; i < banqs.length; i++) {%>
+				<a href="/users/<%=user.id%>/b/<%=banqs[i].id%>" style="color:#000">
+					<div class="col-sm-4">
+						<img src="" alt="# Banquet Image" height="100px" width="100%" style="background-color:grey;">
+						<h2><%=banqs[i].name%></h2>
+						<p><%=banqs[i].description%></p>
+					</div>
+				</a>
+			<%}%>
+		<%}%>
 	</div>
 </div>
 <%-include('down')%>

@@ -50,9 +50,22 @@ router.post('/:id/b/new', user_middleware, function(req, res) {
 router.get('/:id/b', user_middleware, function(req, res) {
 	Banq.findAll()
 	.then(function(banqs) {
-		res.send('All Banquets'+banqs)
+		if(!banqs[0]) {
+			res.render('banq_all', {
+				user: req.user,
+				banqs: null,
+				message: 'No banquet registered yet.',
+				type: 'alert-danger',
+				is_login: req.flash('is_login')
+			})
+		} else {
+			res.render('banq_all', {
+				user: req.user,
+				banqs: banqs,
+				is_login: req.flash('is_login')
+			})
+		}
 	})
-	res.redirect('/users/'+req.params.id);
 })
 
 /* Get the details of banquet whose id is b_id*/

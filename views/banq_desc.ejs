@@ -1,17 +1,18 @@
 <%-include('up')%>
 <div class="row margin-top">
-	<img src="/images/cover.jpg" alt="Banquet Image" class="img-thumbnail img-responsive" style="width:100%;height: 400px; object-fit: cover;">
-	<div class="col-sm-">
-
-	</div>
-	<h2><%=banq_name%></h2>
-	<span class="col-sm-6">
-		<p><%=banq_desc%></p>
-	</span>
-	<div class="col-sm-pull-1 pull-right">
-		<form class="form-horizontal" action="/<%=user.id%>/b/<%=banq_id%>" method="post">
-			<input type="submit" class="btn btn-primary" value="Book">
-		</form>
+	<div class="container-fluid">
+		<img src="/images/cover.jpg" alt="Banquet Image" class="img-thumbnail img-responsive" style="width:100%;height: 400px; object-fit: cover;">
+		<div class="container">
+			<h2><%=banq_name%></h2>
+			<span class="col-sm-6">
+				<p><%=banq_desc%></p>
+			</span>
+			<div class="pull-right">
+				<form class="form-horizontal" action="/<%=user.id%>/b/<%=banq_id%>" method="post">
+					<input type="submit" class="btn btn-lg btn-primary" value="Book This Venue">
+				</form>
+			</div>
+		</div>
 	</div>
 </div>
 <%-include('down')%>
