@@ -1,8 +1,10 @@
 <%-include('up')%>
 <% if(message.length > 0) {%>
-    <div class="alert <%=type%> alert-dismissable text-center">
-      <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
-      <strong><%=message%></strong>
+    <div class="row">
+		<div class="alert <%=type%> alert-dismissable text-center">
+	      <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	      <strong><%=message%></strong>
+	    </div>
     </div>
 <%}%>
 <div class="row margin-top">

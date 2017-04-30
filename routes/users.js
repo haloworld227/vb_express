@@ -23,7 +23,7 @@ user_middleware = function(req, res, next) {
 
 /* GET users Dashboard. */
 router.get('/:id', user_middleware, function(req, res) {
-	res.render('dashboard', { user_id: req.user.id, username: req.user.name, is_login: req.flash('is_login') });
+	res.render('dashboard', { user: req.user, is_login: req.flash('is_login') });
 });
 
 router.get('/:id/b/new', user_middleware, function(req, res) {
@@ -31,7 +31,7 @@ router.get('/:id/b/new', user_middleware, function(req, res) {
 		message: req.flash('msg'),
 		type: req.flash('type'),
 		is_login: req.flash('is_login'),
-		user_id: req.params.id
+		user: req.user
 	})
 })
 
@@ -66,7 +66,7 @@ router.get('/:id/b/:b_id', user_middleware, function(req, res) {
 			banq_id: banq.id,
 			banq_name: banq.name,
 			banq_desc: banq.description,
-			user_id: req.params.id
+			user: req.user
 		})
 	})
 })
@@ -77,7 +77,7 @@ router.post('/:id/b/:b_id', user_middleware, function(req, res) {
 		message: req.flash('msg'),
 		type: req.flash('type'),
 		is_login: req.flash('is_login'),
-		user_id: req.params.id
+		user: req.user
 	})
 })
 

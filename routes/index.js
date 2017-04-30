@@ -15,16 +15,13 @@ router.get('/login', function(req, res, next) {
 router.post('/login', function(req, res) {
 	User.login(req.body.email, req.body.password)
 	.then(function(user) {
-		req.flash('is_login', 't')
 		res.redirect('users/'+user.id);
-		// res.send('Success')
 	})
 	.catch(function(err) {
 		console.log(err);
 		req.flash('msg', err)
 		req.flash('type', 'alert-danger')
 		res.redirect('/login');
-		// res.send('failed');
 	});
 });``
 
@@ -46,6 +43,10 @@ router.post('/signup', function(req, res, next) {
 		req.flash('type', 'alert-danger')
 		res.redirect('/');
 	})
+});
+
+router.get('/contact', function(req, res) {
+	res.redirect('/');
 });
 
 router.get('/logout', function(req, res) {

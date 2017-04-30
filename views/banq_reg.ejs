@@ -12,7 +12,7 @@
                 <h1 class="color-white">Register Your Banquet</h1>
             </div>
             <div class="panel-body">
-                <form action="/users/<%=user_id%>/b/new" method="post" class="form-horizontal">
+                <form action="/users/<%=user.id%>/b/new" method="post" class="form-horizontal">
                     <input type="hidden" name="_csrf" value="<%=csrf_token%>">
                     <div class="form-group">
                         <label for="name" class="control-label col-sm-2">Banquet Name: </label>
