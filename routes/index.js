@@ -2,13 +2,22 @@ const express = require('express');
 const router = express.Router();
 const User = require('../controllers/user');
 
+const csrf_middleware = function(req, res, next) {
+	if(req.body._csrf === res.locals.csrf_token) {
+		next();
+	}
+	else {
+		res.redirect('/');
+	}
+}
+
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
 	res.render('index', { is_login: req.flash('is_login') } );
 });
 
 /* GET login page. */
-router.get('/login', function(req, res, next) {
+router.get('/login', function(req, res) {
 	res.render('login', { message: req.flash('msg') || '', type: req.flash('type'), is_login: req.flash('is_login') });
 });
 
@@ -25,11 +34,11 @@ router.post('/login', function(req, res) {
 });``
 
 /* GET signup page. */
-router.get('/signup', function(req, res, next) {
+router.get('/signup', function(req, res) {
 	res.render('signup', { message: req.flash('msg'), type: req.flash('type'), is_login: req.flash('is_login') });
 });
 
-router.post('/signup', function(req, res, next) {
+router.post('/signup', function(req, res) {
 	User.create(req)
 	.then(function(row) {
 		req.flash('msg', 'Account has been created. Login here.')
@@ -42,10 +51,6 @@ router.post('/signup', function(req, res, next) {
 		req.flash('type', 'alert-danger')
 		res.redirect('/');
 	})
-});
-
-router.get('/contact', function(req, res) {
-	res.redirect('/');
 });
 
 router.get('/logout', function(req, res) {
