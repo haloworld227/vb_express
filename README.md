@@ -8,3 +8,5 @@ cd vb_express
 npm install
 
 npm start
+
+visit localhost:3000
