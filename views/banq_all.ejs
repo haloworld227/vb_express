@@ -7,9 +7,13 @@
 	<div class="container-fluid">
 		<%if(banqs) {%>
 			<%for (var i = 0; i < banqs.length; i++) {%>
-				<a href="/users/<%=user.id%>/b/<%=banqs[i].id%>" style="color:#000">
+				<%if(!user) { %>
+					<a href="/banq/<%=banqs[i].id%>" style="color:#000">
+				<% } else {%>
+					<a href="/users/<%=user.id%>/b/<%=banqs[i].id%>" style="color:#000">
+				<% } %>
 					<div class="col-sm-4">
-						<img src="" alt="# Banquet Image" height="100px" width="100%" style="background-color:grey;">
+						<img src="/images/banquets/<%=banqs[i].id%>.jpg" alt="# Banquet Image" height="200px" class="img-thumbnail cover">
 						<h2><%=banqs[i].name%></h2>
 						<p><%=banqs[i].description%></p>
 					</div>

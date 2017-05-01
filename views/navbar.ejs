@@ -7,7 +7,7 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 		</button>
-      	<a class="navbar-brand" href="<%if(is_login.length > 0 && is_login[0] === 't') {%>/users/<%=user.id%><%}else {%>/<%}%>"><i class="glyphicon glyphicon-glass"></i> VB - Express</a>
+      	<a class="navbar-brand" href="<%if(!user) {%>/<%}else {%>/users/<%=user.id%><%}%>"><i class="glyphicon glyphicon-glass"></i> VB - Express</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -17,8 +17,8 @@
         	<li><a href="#">Link</a></li> -->
       	</ul>
       	<ul class="nav navbar-nav navbar-right">
-			<%if(is_login.length > 0 && is_login[0] === 't') {%>
-        	<li><a href="/users/<%=user.id%>/b" title="View all the venues"><i class="glyphicon glyphicon-search"></i> Find</a></li>
+			<%if(user) {%>
+        		<li><a href="/users/<%=user.id%>/b/all" title="View all the venues"><i class="glyphicon glyphicon-search"></i> Find</a></li>
 				<li class="dropdown">
 			        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i>
 			        <span class="caret"></span></a>
@@ -28,8 +28,15 @@
 			        </ul>
 			   	</li>
 			<%}else {%>
-        	<li><a href="/signup"><i class="glyphicon glyphicon-globe"></i> Sign Up</a></li>
-        	<li><a href="/login"><i class="glyphicon glyphicon-log-in"></i> Login</a></li>
+	        	<li><a href="/banq/" title="View all the venues"><i class="glyphicon glyphicon-search"></i> Find</a></li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i>
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+			        	<li><a href="/signup"><i class="glyphicon glyphicon-globe"></i> Sign Up</a></li>
+			        	<li><a href="/login"><i class="glyphicon glyphicon-log-in"></i> Login</a></li>
+					</ul>
+				</li>
 			<%}%>
       	</ul>
     </div><!-- /.navbar-collapse -->

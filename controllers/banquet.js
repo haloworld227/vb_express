@@ -15,10 +15,17 @@ module.exports = {
 				owner_id: req.params.id
 			})
 	},
-	findOne: function(owner_id, banquet_id) {
+	findOne: function(banquet_id) {
 		return Banq.findOne({
 			where: {
 				id: banquet_id
+			}
+		});
+	},
+	findAllByUser: function(owner_id) {
+		return Banq.findAll( {
+			where: {
+				owner_id: owner_id
 			}
 		});
 	},

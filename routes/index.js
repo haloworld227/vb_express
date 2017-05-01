@@ -2,23 +2,14 @@ const express = require('express');
 const router = express.Router();
 const User = require('../controllers/user');
 
-const csrf_middleware = function(req, res, next) {
-	if(req.body._csrf === res.locals.csrf_token) {
-		next();
-	}
-	else {
-		res.redirect('/');
-	}
-}
-
 /* GET home page. */
 router.get('/', function(req, res) {
-	res.render('index', { is_login: req.flash('is_login') } );
+	res.render('index', { user : null });
 });
 
 /* GET login page. */
 router.get('/login', function(req, res) {
-	res.render('login', { message: req.flash('msg') || '', type: req.flash('type'), is_login: req.flash('is_login') });
+	res.render('login', { message: req.flash('msg') || '', type: req.flash('type'), user: null });
 });
 
 router.post('/login', function(req, res) {
@@ -35,7 +26,7 @@ router.post('/login', function(req, res) {
 
 /* GET signup page. */
 router.get('/signup', function(req, res) {
-	res.render('signup', { message: req.flash('msg'), type: req.flash('type'), is_login: req.flash('is_login') });
+	res.render('signup', { message: req.flash('msg'), type: req.flash('type'), user: null });
 });
 
 router.post('/signup', function(req, res) {
