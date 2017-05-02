@@ -60,8 +60,8 @@ router.get('/:id/v', user_middleware, function(req, res) {
 			res.render('venue_all', {
 				user: req.user,
 				venues: null,
-				message: 'No venues registered by you.',
-				type: 'alert-danger'
+				message: 'No venues have been registered by you.',
+				type: 'alert-info'
 			})
 		} else {
 			res.render('venue_all', {
@@ -86,7 +86,7 @@ router.get('/:id/v/all', user_middleware, function(req, res) {
 				user: req.user,
 				venues: null,
 				message: 'No venue registered yet.',
-				type: 'alert-danger',
+				type: 'alert-info',
 			})
 		} else {
 			res.render('venue_all', {
@@ -116,12 +116,14 @@ router.get('/:id/v/:v_id', user_middleware, function(req, res) {
 router.post('/:id/v/:v_id', user_middleware, function(req, res) {
 	User.booking(req.user.id, req.venue.id, req.body.booking_date)
 	.then(function() {
-		res.redirect('/users/'+req.user.id+'/b');
+		res.send('Succeeded')
+		// res.redirect('/users/'+req.user.id+'/b');
 	})
 	.catch(function(err) {
-		req.flash('msg', 'Venue is booked on this date');
+		req.flash('msg', 'Venue is already booked on this date');
 		req.flash('type', 'alert-danger');
-		res.redirect('/users/'+req.user.id+'/v/'+req.venue.id);
+		res.send('Failed')
+		// res.redirect('/users/'+req.user.id+'/v/'+req.venue.id);
 	})
 })
 

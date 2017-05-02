@@ -31,6 +31,7 @@ module.exports = {
 		});
 	},
 	findAllBookedByCurrentUser: function(venues_ids) {
+		console.log(venues_ids);
 		return Venue.findAll({
 			where: {
 				id: {
