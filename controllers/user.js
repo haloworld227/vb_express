@@ -44,14 +44,15 @@ module.exports = {
 			UserVenueBooking.findOne({
 				where: {
 					venue_id: venue_id,
-					booking_date: booking_date
+					booking_date: booking_date+' 00:00:00'
 				}
 			})
 			.then(function(entry) {
 				if(!entry) {
 					UserVenueBooking.create({
 						client_id, client_id,
-						venue_id, venue_id
+						venue_id, venue_id,
+						booking_date: booking_date
 					})
 					.then(function(newEntry) {
 						resolve(true)
@@ -68,22 +69,27 @@ module.exports = {
 			})
 		})
 	},
-	getAllbookings: function(client_id, fn) {
-		UserVenueBooking.findAll({
-			attributes: ['venue_id'],
-			where: {
-				client_id: client_id
-			}
-		})
-		.then(function(entries) {
-			if(!entries) {
-				fn(null)
-			} else {
-				Venue.findAllBookedByCurrentUser(entries)
-				.then(function(allVenues) {
-					fn(allVenues);
-				})
-			}
+	getAllbookings: function(client_id) {
+		return new Promise(function(resolve, reject) {
+			UserVenueBooking.findAll({
+				attributes: ['venue_id'],
+				where: {
+					client_id: client_id
+				}
+			})
+			.then(function(entries) {
+				if(entries.length === 0) {
+					reject('No entries')
+				} else {
+					Venue.findAllBookedByCurrentUser(entries)
+					.then(function(allVenues) {
+						resolve(allVenues);
+					})
+				}
+			})
+			.catch(function(err) {
+				reject(err)
+			})
 		})
 	}
 }

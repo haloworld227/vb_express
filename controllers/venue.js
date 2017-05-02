@@ -31,11 +31,14 @@ module.exports = {
 		});
 	},
 	findAllBookedByCurrentUser: function(venues_ids) {
-		console.log(venues_ids);
+		var v_ids = [];
+		for (var i = 0; i < venues_ids.length; i++) {
+			v_ids.push(venues_ids[i].venue_id);
+		}
 		return Venue.findAll({
 			where: {
 				id: {
-					$in: venues_ids
+					$in: v_ids
 				}
 			}
 		});

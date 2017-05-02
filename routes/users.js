@@ -127,24 +127,24 @@ router.post('/:id/v/:v_id', user_middleware, function(req, res) {
 	})
 })
 
-/*Get all venues booked by this user*/
+/*Get all venues booked by current user*/
 router.get('/:id/b', user_middleware, function(req, res) {
-	User.getAllbookings(req.user.id, function(venues) {
-		if(venues.length === 0) {
-			res.render('venue_all', {
-				message: 'No bookings yet.',
-				type: 'alert-info',
-				venues: venues,
-				user: req.user
-			});
-		} else {
-			res.render('venue_all', {
-				message: req.flash('msg'),
-				type: req.flash('type'),
-				venues: venues,
-				user: req.user
-			});
-		}
+	User.getAllbookings(req.user.id)
+	.then(function(venues) {
+		res.render('venue_all', {
+			message: req.flash('msg'),
+			type: req.flash('type'),
+			venues: venues,
+			user: req.user
+		});
+	})
+	.catch(function(err) {
+		res.render('venue_all', {
+			message: 'No bookings yet.',
+			type: 'alert-info',
+			venues: null,
+			user: req.user
+		});
 	})
 });
 
