@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 8;
 
 module.exports = function(sequelize, DataTypes) {
-	var user = sequelize.define('user', {
+	var User = sequelize.define('user', {
 		name: DataTypes.STRING,
 		email: DataTypes.STRING,
 		password: {
@@ -36,11 +36,16 @@ module.exports = function(sequelize, DataTypes) {
 			},
 			associate: function(models) {
 				// associations can be defined here
-				user.hasMany(models.banquets,{
+				User.hasMany(models.venues,{
 					foreignKey: 'owner_id'
-				})
+				});
+
+				User.belongsToMany(models.venues, {
+					through: models.user_venue_bookings
+				});
+
 			}
 	  	}
 	});
-  return user;
+  return User;
 };

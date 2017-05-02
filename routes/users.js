@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../controllers/user');
-const Banq = require('../controllers/banquet');
+const Venue = require('../controllers/venue');
 
 user_middleware = function(req, res, next) {
 	User.find(req.params.id)
@@ -12,11 +12,19 @@ user_middleware = function(req, res, next) {
 			res.redirect('/login')
 		}else {
 			req.user = user;
-			next();
+			if(req.params.v_id) {
+				Venue.findOne(req.params.v_id)
+				.then(function(venue) {
+					req.venue = venue;
+					next();
+				});
+			} else {
+				next();
+			}
 		}
 	})
-	.catch(function(err) {
-		console.log(err);
+	.catch(function() {
+		res.redirect('/users/'+req.user.id);
 	})
 }
 
@@ -25,85 +33,117 @@ router.get('/:id', user_middleware, function(req, res) {
 	res.render('dashboard', { user: req.user });
 });
 
-/* Register a banquet */
-router.get('/:id/b/new', user_middleware, function(req, res) {
-	res.render('banq_reg', {
+/* Register a venue */
+router.get('/:id/v/new', user_middleware, function(req, res) {
+	res.render('venue_reg', {
 		message: req.flash('msg'),
 		type: req.flash('type'),
 		user: req.user
 	})
 })
 
-router.post('/:id/b/new', user_middleware, function(req, res) {
-	Banq.create(req)
-	.then(function(banq) {
-		res.redirect('/users/'+req.params.id+'/b/'+banq.id); //get banquet details
+router.post('/:id/v/new', user_middleware, function(req, res) {
+	Venue.create(req)
+	.then(function(venue) {
+		res.redirect('/users/'+req.params.id+'/v/'+venue.id); //get venue details
 	})
-	.catch(function(err) {
-		res.send('Failed: '+err)
+	.catch(function() {
+		res.redirect('/users/'+req.user.id);
 	})
 })
 
-/* This route will return all the registered banquets by current user */
-router.get('/:id/b', user_middleware, function(req, res) {
-	Banq.findAllByUser(req.user.id)
-	.then(function(banqs) {
-		if(!banqs[0]) {
-			res.render('banq_all', {
+/* This route will return all the registered venues by current user */
+router.get('/:id/v', user_middleware, function(req, res) {
+	Venue.findAllRegisteredByUser(req.user.id)
+	.then(function(venues) {
+		if(!venues[0]) {
+			res.render('venue_all', {
 				user: req.user,
-				banqs: null,
-				message: 'No banquet registered yet.',
+				venues: null,
+				message: 'No venues registered by you.',
 				type: 'alert-danger'
 			})
 		} else {
-			res.render('banq_all', {
+			res.render('venue_all', {
 				user: req.user,
-				banqs: banqs
+				venues: venues,
+				message: req.flash('msg'),
+				type: req.flash('type')
 			})
 		}
 	})
+	.catch(function() {
+		res.redirect('/users/'+req.user.id);
+	})
 })
 
-/* This route will return all the registered banquets by all user */
-router.get('/:id/b/all', user_middleware, function(req, res) {
-	Banq.findAll()
-	.then(function(banqs) {
-		if(!banqs[0]) {
-			res.render('banq_all', {
+/* This route will return all the registered venues by all user */
+router.get('/:id/v/all', user_middleware, function(req, res) {
+	Venue.findAllByAllUsers()
+	.then(function(venues) {
+		if(!venues[0]) {
+			res.render('venue_all', {
 				user: req.user,
-				banqs: null,
-				message: 'No banquet registered yet.',
+				venues: null,
+				message: 'No venue registered yet.',
 				type: 'alert-danger',
 			})
 		} else {
-			res.render('banq_all', {
+			res.render('venue_all', {
 				user: req.user,
-				banqs: banqs
+				venues: venues,
+				message: req.flash('msg'),
+				type: req.flash('type')
 			})
 		}
 	})
+	.catch(function() {
+		res.redirect('/users/'+req.user.id);
+	})
 });
 
-/* Get the details of banquet whose id is b_id*/
-router.get('/:id/b/:b_id', user_middleware, function(req, res) {
-	Banq.findOne(req.params.b_id)
-	.then(function(banq) {
-		res.render('banq_desc', {
-			message: req.flash('msg'),
-			type: req.flash('type'),
-			banq: banq,
-			user: req.user
-		})
-	})
-})
-
-/* Book the banquet whose id is b_id against the user whose id is 'id'*/
-router.post('/:id/b/:b_id', user_middleware, function(req, res) {
-	res.render('banq_desc', {
+/* Get the details of venue whose id is v_id*/
+router.get('/:id/v/:v_id', user_middleware, function(req, res) {
+	res.render('venue_desc', {
 		message: req.flash('msg'),
 		type: req.flash('type'),
+		venue: req.venue,
 		user: req.user
 	})
 })
+
+/* Book the venue whose id is v_id against the user whose id is 'id'*/
+router.post('/:id/v/:v_id', user_middleware, function(req, res) {
+	User.booking(req.user.id, req.venue.id, req.body.booking_date)
+	.then(function() {
+		res.redirect('/users/'+req.user.id+'/b');
+	})
+	.catch(function(err) {
+		req.flash('msg', 'Venue is booked on this date');
+		req.flash('type', 'alert-danger');
+		res.redirect('/users/'+req.user.id+'/v/'+req.venue.id);
+	})
+})
+
+/*Get all venues booked by this user*/
+router.get('/:id/b', user_middleware, function(req, res) {
+	User.getAllbookings(req.user.id, function(venues) {
+		if(venues.length === 0) {
+			res.render('venue_all', {
+				message: 'No bookings yet.',
+				type: 'alert-info',
+				venues: venues,
+				user: req.user
+			});
+		} else {
+			res.render('venue_all', {
+				message: req.flash('msg'),
+				type: req.flash('type'),
+				venues: venues,
+				user: req.user
+			});
+		}
+	})
+});
 
 module.exports = router;

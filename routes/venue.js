@@ -1,31 +1,31 @@
 const express = require('express');
 const router = express.Router();
-const Banq = require('../controllers/banquet');
+const Venue = require('../controllers/venue');
 
-/* This route will return all the registered banquets */
+/* This route will return all the registered venues */
 router.get('/', function(req, res) {
-	Banq.findAll()
-	.then(function(banqs) {
-		if(!banqs[0]) {
-			res.render('banq_all', {
+	Venue.findAll()
+	.then(function(venues) {
+		if(!venues[0]) {
+			res.render('venue_all', {
 				user: null,
-				banqs: null,
-				message: 'No banquet registered yet.',
+				venues: null,
+				message: 'No venue registered yet.',
 				type: 'alert-danger',
 			})
 		} else {
-			res.render('banq_all', {
+			res.render('venue_all', {
 				user: null,
-				banqs: banqs
+				venues: venues
 			})
 		}
 	})
 });
 
 router.get('/:b_id', function(req, res) {
-	Banq.findOne(req.params.b_id)
+	Venue.findOne(req.params.b_id)
 	.then(function(banq) {
-		res.render('banq_desc', {
+		res.render('venue_desc', {
 			message: req.flash('msg'),
 			type: req.flash('type'),
 			banq: banq,

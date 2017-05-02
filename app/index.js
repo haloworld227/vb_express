@@ -9,7 +9,7 @@ const csrf = require('csurf');
 
 const index = require('../routes/index');
 const users = require('../routes/users');
-const banq = require('../routes/banquet');
+const venue = require('../routes/venue');
 
 const app = express();
 
@@ -45,7 +45,7 @@ app.use(function(req, res, next) {
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/banq', banq);
+app.use('/venue', venue);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,9 +1,10 @@
 const db = require('../config/database');
-const Banq = db.import('../models/banquet');
+const Venue = db.import('../models/venue');
+const UserVenueBooking = db.import('../models/user_venue_booking');
 
 module.exports = {
 	create: function(req) {
-		return Banq.create({
+		return Venue.create({
 				name: req.body.b_name,
 				location: req.body.b_loc,
 				city: req.body.city,
@@ -15,21 +16,30 @@ module.exports = {
 				owner_id: req.params.id
 			})
 	},
-	findOne: function(banquet_id) {
-		return Banq.findOne({
+	findOne: function(venue_id) {
+		return Venue.findOne({
 			where: {
-				id: banquet_id
+				id: venue_id
 			}
 		});
 	},
-	findAllByUser: function(owner_id) {
-		return Banq.findAll( {
+	findAllRegisteredByUser: function(owner_id) {
+		return Venue.findAll( {
 			where: {
 				owner_id: owner_id
 			}
 		});
 	},
-	findAll: function() {
-		return Banq.findAll();
+	findAllBookedByCurrentUser: function(venues_ids) {
+		return Venue.findAll({
+			where: {
+				id: {
+					$in: venues_ids
+				}
+			}
+		});
+	},
+	findAllByAllUsers: function() {
+		return Venue.findAll();
 	}
 }

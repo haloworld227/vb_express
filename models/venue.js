@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var banquet = sequelize.define('banquet', {
+  var Venue = sequelize.define('venue', {
     name: DataTypes.STRING,
     location: DataTypes.STRING,
     city: DataTypes.STRING,
@@ -14,12 +14,17 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         // associations can be defined here
-		banquet.belongsTo(models.users, {
+		Venue.belongsTo(models.users, {
 				foreignKey: 'owner_id',
 				allowNull: false
 			});
+
+
+		Venue.belongsToMany(models.users, {
+			through: models.user_venue_bookings
+		});
       }
     }
   });
-  return banquet;
+  return Venue;
 };

@@ -18,17 +18,19 @@
       	</ul>
       	<ul class="nav navbar-nav navbar-right">
 			<%if(user) {%>
-        		<li><a href="/users/<%=user.id%>/b/all" title="View all the venues"><i class="glyphicon glyphicon-search"></i> Find</a></li>
+        		<li><a href="/users/<%=user.id%>/v/all" title="View all the venues"><i class="glyphicon glyphicon-search"></i> Find</a></li>
 				<li class="dropdown">
-			        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i>
+			        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%=user.name%>
 			        <span class="caret"></span></a>
 			        <ul class="dropdown-menu">
-			          <li><a href="/users/<%=user.id%>/b/new"><i class="glyphicon glyphicon-book"></i> Register a Banquet</a></li>
-  			          <li><a href="/logout"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
+						<li><a href="/users/<%=user.id%>/v/new"><i class="glyphicon glyphicon-plus-sign"></i> Register a Venue</a></li>
+						<li><a href="/users/<%=user.id%>/v"><i class="glyphicon glyphicon-book"></i> Your Venues</a></li>
+						<li><a href="/users/<%=user.id%>/b"><i class="glyphicon glyphicon-book"></i> Your Bookings</a></li>
+						<li><a href="/logout"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
 			        </ul>
 			   	</li>
 			<%}else {%>
-	        	<li><a href="/banq/" title="View all the venues"><i class="glyphicon glyphicon-search"></i> Find</a></li>
+	        	<li><a href="/venue/" title="View all the venues"><i class="glyphicon glyphicon-search"></i> Find</a></li>
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i>
 					<span class="caret"></span></a>

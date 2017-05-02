@@ -1,0 +1,22 @@
+<%-include('up')%>
+<%-include('error_msg')%>
+<div class="row margin-top">
+	<div class="container-fluid">
+		<%if(venues) {%>
+			<%for (var i = 0; i < venues.length; i++) {%>
+				<%if(!user) { %>
+					<a href="/venue/<%=venues[i].id%>" style="color:#000">
+				<% } else {%>
+					<a href="/users/<%=user.id%>/v/<%=venues[i].id%>" style="color:#000">
+				<% } %>
+					<div class="col-sm-4">
+						<img src="/images/venues/<%=venues[i].id%>.jpg" alt="# Banquet Image" class="img-thumbnail cover" style="height:200px">
+						<h2><%=venues[i].name%></h2>
+						<p><%=venues[i].description%></p>
+					</div>
+				</a>
+			<%}%>
+		<%}%>
+	</div>
+</div>
+<%-include('down')%>
