@@ -19,7 +19,7 @@ router.post('/login', function(req, res) {
 	})
 	.catch(function(err) {
 		console.log(err);
-		req.flash('msg', 'An error occured. Try Again')
+		req.flash('msg', err)
 		req.flash('type', 'alert-danger')
 		res.redirect('/login');
 	});
@@ -44,9 +44,7 @@ router.post('/signup', function(req, res) {
 		}
 	})
 	.catch(function(err) {
-		console.log(err);
-		var msg = (err.errors[0].message === 'email must be unique') ? 'THIS EMAIL ADDRESS IS ALREADY TAKEN.' : 'An error occured. Try again';
-		req.flash('msg', msg)
+		req.flash('msg', err.errors)
 		req.flash('type', 'alert-danger')
 		res.redirect('/');
 	})

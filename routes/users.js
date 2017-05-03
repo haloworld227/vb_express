@@ -116,14 +116,14 @@ router.get('/:id/v/:v_id', user_middleware, function(req, res) {
 router.post('/:id/v/:v_id', user_middleware, function(req, res) {
 	User.booking(req.user.id, req.venue.id, req.body.booking_date)
 	.then(function() {
-		res.send('Succeeded')
-		// res.redirect('/users/'+req.user.id+'/b');
+		// res.send('Succeeded')
+		res.redirect('/users/'+req.user.id+'/b');
 	})
 	.catch(function(err) {
 		req.flash('msg', err);
 		req.flash('type', 'alert-danger');
-		res.send('Failed')
-		// res.redirect('/users/'+req.user.id+'/v/'+req.venue.id);
+		// res.send('Failed')
+		res.redirect('/users/'+req.user.id+'/v/'+req.venue.id);
 	})
 })
 
