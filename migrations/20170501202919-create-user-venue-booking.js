@@ -29,7 +29,7 @@ module.exports = {
 			onDelete: 'restrict'
 		},
 		booking_date: {
-	  		type: Sequelize.DATE,
+	  		type: Sequelize.DATEONLY,
 	  		allowNull: false
 		},
       	createdAt: {

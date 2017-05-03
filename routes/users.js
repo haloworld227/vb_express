@@ -120,7 +120,7 @@ router.post('/:id/v/:v_id', user_middleware, function(req, res) {
 		// res.redirect('/users/'+req.user.id+'/b');
 	})
 	.catch(function(err) {
-		req.flash('msg', 'Venue is already booked on this date');
+		req.flash('msg', err);
 		req.flash('type', 'alert-danger');
 		res.send('Failed')
 		// res.redirect('/users/'+req.user.id+'/v/'+req.venue.id);

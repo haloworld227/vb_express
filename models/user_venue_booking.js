@@ -4,7 +4,7 @@ module.exports = function(sequelize, DataTypes) {
     client_id: DataTypes.INTEGER,
     venue_id: DataTypes.INTEGER,
 	booking_date: {
-		type: DataTypes.DATE
+		type: DataTypes.DATEONLY
 	}
   }, {
     classMethods: {

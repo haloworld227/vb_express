@@ -9,13 +9,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+		allowNull: false
       },
       location: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+		allowNull: false
       },
       city: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+		allowNull: false
       },
       phone: {
         type: Sequelize.STRING
@@ -24,13 +27,16 @@ module.exports = {
         type: Sequelize.INTEGER
 	  },
 	  adv_pay: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+		allowNull: false
       },
       total_pay: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+		allowNull: false
       },
       description: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+		allowNull: false
       },
       owner_id: {
         type: Sequelize.INTEGER,

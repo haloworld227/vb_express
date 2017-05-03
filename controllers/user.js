@@ -23,7 +23,7 @@ module.exports = {
 			.then(function(user) {
 				if(!user) {
 					reject('Incorrect Email');
-				}else if(!User.verifyPassword(password, user.password)) {
+				}else if(!User.verifyPassword(password, user.hashPass)) {
 					reject('Incorrect Password');
 				}
 				resolve(user);
@@ -44,7 +44,7 @@ module.exports = {
 			UserVenueBooking.findOne({
 				where: {
 					venue_id: venue_id,
-					booking_date: booking_date+' 00:00:00'
+					booking_date: booking_date
 				}
 			})
 			.then(function(entry) {
@@ -58,14 +58,14 @@ module.exports = {
 						resolve(true)
 					})
 					.catch(function(err) {
-						console.log(err);
+						reject(err);
 					})
 				}else {
-					reject(false)
+					reject('Venue is already booked on this date')
 				}
 			})
 			.catch(function(err) {
-				console.log(err);
+				reject(err);
 			})
 		})
 	},

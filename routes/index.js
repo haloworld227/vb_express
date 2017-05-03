@@ -18,7 +18,8 @@ router.post('/login', function(req, res) {
 		res.redirect('users/'+user.id);
 	})
 	.catch(function(err) {
-		req.flash('msg', 'An erro occured. Try Again')
+		console.log(err);
+		req.flash('msg', 'An error occured. Try Again')
 		req.flash('type', 'alert-danger')
 		res.redirect('/login');
 	});
@@ -32,11 +33,18 @@ router.get('/signup', function(req, res) {
 router.post('/signup', function(req, res) {
 	User.create(req)
 	.then(function(row) {
-		req.flash('msg', 'Account has been created. Login here.')
-		req.flash('type', 'alert-success')
-		res.redirect('/login')
+		if(!row) {
+			req.flash('msg', 'Account has not been created. Login here.')
+			req.flash('type', 'alert-danger')
+			res.redirect('/signup')
+		} else {
+			req.flash('msg', 'Account has been created. Login here.')
+			req.flash('type', 'alert-success')
+			res.redirect('/login')
+		}
 	})
 	.catch(function(err) {
+		console.log(err);
 		var msg = (err.errors[0].message === 'email must be unique') ? 'THIS EMAIL ADDRESS IS ALREADY TAKEN.' : 'An error occured. Try again';
 		req.flash('msg', msg)
 		req.flash('type', 'alert-danger')

@@ -7,13 +7,23 @@ const saltRounds = 8;
 module.exports = function(sequelize, DataTypes) {
 	var User = sequelize.define('user', {
 		name: DataTypes.STRING,
-		email: DataTypes.STRING,
-		password: {
+		email: {
 			type: DataTypes.STRING,
-			set: function(val) {
-				this.setDataValue('password', this.hashPassword(val))
+			validate: {
+				isEmail: true
 			}
 		},
+		password: {
+			type: DataTypes.STRING,
+			validate: {
+				min: 8
+			},
+			set: function(val) {
+				this.setDataValue('password',val)
+				this.setDataValue('hashPass', this.hashPassword(val))
+			}
+		},
+		hashPass: DataTypes.STRING,
 		phone: DataTypes.STRING,
 		tempPassword: DataTypes.STRING,
 		status: {
